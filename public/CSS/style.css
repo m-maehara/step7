@@ -1,0 +1,56 @@
+@charset "utf-8";
+
+html{
+    font-size: 16px;
+}
+
+body{
+    color: #333;
+    font-size: 16px;
+}
+
+.products table th,
+.products table td {
+    width: auto; 
+}
+
+.btn-outline-secondary {
+    background-color: white;
+    color: #333;
+}
+
+.btn-primary {
+    background-color: orange;
+    color: black; 
+}
+
+.btn-info {
+    background-color: aqua;
+    color: black; 
+}
+
+.btn-danger {
+    background-color: red;
+    color: white; 
+}
+
+.table {
+    border: 2px solid #ccc;
+}
+
+dl.row {
+    border: 1px solid #ccc;
+    border-radius: 5px; 
+    padding: 5px;
+}
+
+.btn-primary, .btn-info {
+    margin-right: 10px;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+
