@@ -26,18 +26,23 @@ class ProductController extends Controller
     
         $products = $query->get();
 
-        return view('auth.products.index', ['products' => $products, 'companies' => $companies]);
+        return view('products.index', ['products' => $products, 'companies' => $companies]);
     }
     
 
     public function create()
     {
-        $companies = Company::all();
-        return view('auth.products.create', compact('companies'));
+        try {
+            $companies = Company::all();
+            return view('products.create', compact('companies'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error occurred: ' . $e->getMessage());
+        }
     }
 
-    public function store(Request $request) 
-    {
+public function store(Request $request) 
+{
+    try {
         $request->validate([
             'product_name' => 'required', 
             'company_id' => 'required',
@@ -64,42 +69,53 @@ class ProductController extends Controller
         $product->save();
 
         return redirect('products');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Error occurred: ' . $e->getMessage());
     }
+}
 
     public function show(Product $product)
     {
-        return view('auth.products.show', ['product' => $product]);
+        return view('products.show', ['product' => $product]);
    
     }
 
     public function update(Request $request, Product $product)
     {
-        $request->validate([
-            'product_name' => 'required',
-            'price' => 'required',
-            'stock' => 'required',
-        ]);
-
-        $product->product_name = $request->product_name;
-        $product->price = $request->price;
-        $product->stock = $request->stock;
-        $product->save();
-       
-        return redirect()->route('products.index')
-            ->with('success', 'Product updated successfully');
+        try {
+            $request->validate([
+                'product_name' => 'required',
+                'price' => 'required',
+                'stock' => 'required',
+            ]);
+    
+            $product->product_name = $request->product_name;
+            $product->price = $request->price;
+            $product->stock = $request->stock;
+            $product->save();
+           
+            return redirect()->route('products.index')
+                ->with('success', 'Product updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error occurred: ' . $e->getMessage());
+        }
     }
+    
 
     public function destroy(Product $product)
     {
-        $product->delete();
-        return redirect('/products');
-
+        try {
+            $product->delete();
+            return redirect('/products');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error occurred: ' . $e->getMessage());
+        }
     }
 
     public function edit(Product $product)
     {
         $companies = Company::all();
-        return view('auth.products.edit', compact('product', 'companies'));
+        return view('products.edit', compact('product', 'companies'));
     }
     
 }
