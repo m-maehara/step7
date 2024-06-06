@@ -16,12 +16,13 @@
 
             <div class="col-sm-12 col-md-3">
                 <select name="manufacturer" class="form-control">
-                    <option value="">メーカーを選択してください</option>
+                 <option value="">メーカーを選択してください</option>
                     @foreach($companies as $company)
                         <option value="{{ $company->id }}" {{ request('manufacturer') == $company->id ? 'selected' : '' }}>{{ $company->company_name }}</option>
                     @endforeach
                 </select>
             </div>
+            
             <div class="col-sm-12 col-md-1">
                 <button class="btn btn-outline-secondary" type="submit">検索</button>
             </div>
