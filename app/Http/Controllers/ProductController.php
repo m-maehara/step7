@@ -7,14 +7,15 @@ use App\Models\Product;
 use App\Models\Company;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ProductUpdateRequest;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
     public function index(Request $request)
     {
         $companies = Company::all();
-        $products = new Product(); // Productモデルのインスタンス化
-        $products = $products->search($request->search); // インスタンスメソッドとしてsearchメソッドを呼び出し
+        $products = new Product(); 
+        $products = $products->search($request->search);
         return view('products.index', ['products' => $products, 'companies' => $companies]);
     }
 
