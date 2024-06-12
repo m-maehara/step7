@@ -14,8 +14,18 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $companies = Company::all();
-        $products = new Product(); 
-        $products = $products->search($request->search);
+        $products = Product::query();
+
+        if ($request->has('search')) {
+            $products->where('product_name', 'like', '%'.$request->search.'%');
+        }
+
+        if ($request->filled('manufacturer')) {
+            $products->where('company_id', $request->manufacturer);
+        }
+
+        $products = $products->get();
+
         return view('products.index', ['products' => $products, 'companies' => $companies]);
     }
 
