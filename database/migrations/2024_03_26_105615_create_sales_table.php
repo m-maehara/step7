@@ -16,7 +16,11 @@ class CreateSalesTable extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
+            $table->integer('quantity');
+            $table->timestamp('sale_date');
             $table->timestamps();
+
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
