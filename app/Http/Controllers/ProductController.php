@@ -139,9 +139,9 @@ class ProductController extends Controller
     {
         try {
             $product->delete();
-            return redirect('/products');
+            return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error occurred: ' . $e->getMessage());
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
         }
     }
 

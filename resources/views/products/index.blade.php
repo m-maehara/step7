@@ -3,6 +3,7 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css').'?'.time() }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.default.min.css">
+
 <div class="container">
     <h1 class="mb-4">商品情報一覧</h1>
 
@@ -50,7 +51,6 @@
     </div>
 </div>
 
-@push('scripts')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
 <script>
@@ -71,7 +71,7 @@ $(document).ready(function() {
             success: function(data) {
                 $('#product-list').html(data);
                 $('#product-table').tablesorter({
-                    sortList: [[0, 1]] // 再度初期表示時のソートを設定
+                    sortList: [[0, 1]]
                 });
                 $btn.attr('disabled', false);
             },
@@ -81,7 +81,32 @@ $(document).ready(function() {
             }
         });
     });
+
+    // 非同期削除処理
+    $(document).on('submit', '.delete-form', function(e) {
+        e.preventDefault();
+
+        var form = $(this);
+        var productId = form.closest('tr').attr('id').split('-')[1];
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            success: function(response) {
+                if (response.success) {
+                    $('#product-' + productId).fadeOut(function() {
+                        $(this).remove();
+                    });
+                } else {
+                    alert('削除に失敗しました。');
+                }
+            },
+            error: function() {
+                alert('削除に失敗しました。');
+            }
+        });
+    });
 });
 </script>
-@endpush
 @endsection

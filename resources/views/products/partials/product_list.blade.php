@@ -21,7 +21,7 @@
             <td>{{ $product->company->company_name }}</td>
             <td>
                 <a href="{{ route('products.show', $product) }}" class="btn btn-info btn-sm mx-1">詳細</a>
-                <form method="POST" action="{{ route('products.destroy', $product) }}" class="delete-form d-inline">
+                <form method="POST" action="{{ route('products.destroy', $product) }}" class="delete-form d-inline" id="delete-form-{{ $product->id }}">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-sm mx-1">削除</button>
